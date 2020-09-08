@@ -13,11 +13,7 @@ import java.sql.*;
  */
 public class Projetointegrador1 {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-
+    private static void testaConexao() {
         // ============== Exemplo com postgres ==========================
         String nomeDriver = "org.postgresql.Driver";
         String localBancoDados = "jdbc:postgresql://localhost:5432/postgres";
@@ -52,6 +48,14 @@ public class Projetointegrador1 {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.setVisible(true);        
     }
     
 }
