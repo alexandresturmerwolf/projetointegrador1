@@ -5,6 +5,10 @@
  */
 package projetointegrador1;
 
+import bancodados.BancoDados;
+import java.sql.ResultSet;
+import java.util.Vector;
+
 /**
  *
  * @author wolfi
@@ -16,6 +20,7 @@ public class CadastroClientes extends javax.swing.JFrame {
      */
     public CadastroClientes() {
         initComponents();
+        btAtualizarActionPerformed(null);        
     }
 
     /**
@@ -27,8 +32,8 @@ public class CadastroClientes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        spDados = new javax.swing.JScrollPane();
+        tbDados = new javax.swing.JTable();
         btIncluir = new javax.swing.JButton();
         btAlterar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
@@ -38,7 +43,7 @@ public class CadastroClientes extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Clientes");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbDados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -49,7 +54,7 @@ public class CadastroClientes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        spDados.setViewportView(tbDados);
 
         btIncluir.setText("Incluir");
 
@@ -58,6 +63,11 @@ public class CadastroClientes extends javax.swing.JFrame {
         btExcluir.setText("Excluir");
 
         btAtualizar.setText("Atualizar");
+        btAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtualizarActionPerformed(evt);
+            }
+        });
 
         btFechar.setText("Fechar");
         btFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +80,7 @@ public class CadastroClientes extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE)
+            .addComponent(spDados, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btIncluir)
@@ -89,7 +99,7 @@ public class CadastroClientes extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                .addComponent(spDados, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAtualizar)
@@ -107,6 +117,34 @@ public class CadastroClientes extends javax.swing.JFrame {
     private void btFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFecharActionPerformed
         dispose();
     }//GEN-LAST:event_btFecharActionPerformed
+
+    private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+        BancoDados bd = new BancoDados();
+        try {
+            ResultSet rs = bd.executaQuery("SELECT * FROM usuarios");
+            
+            System.out.println(rs.getMetaData().getColumnCount());
+            
+            Vector linhas = new Vector();
+            while (rs.next()) {
+                Vector colunas = new Vector();
+                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                    colunas.add(rs.getString(i));                                        
+                }
+                linhas.add(new Vector(colunas));
+            }
+            
+            Vector cabecalho = new Vector();            
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                cabecalho.add(rs.getMetaData().getColumnLabel(i));
+            }
+            
+            tbDados.setModel(new javax.swing.table.DefaultTableModel(linhas, cabecalho));
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btAtualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,7 +187,7 @@ public class CadastroClientes extends javax.swing.JFrame {
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btFechar;
     private javax.swing.JButton btIncluir;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane spDados;
+    private javax.swing.JTable tbDados;
     // End of variables declaration//GEN-END:variables
 }
